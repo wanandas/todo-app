@@ -5,7 +5,8 @@ import { SCREEN } from "../../utils/SCREEN";
 import { Card } from "./Card";
 
 export function Todolist() {
-  const { todolist } = useHandleValue();
+  const { todolist, handleSaveTodo, handleDelete, handleChecked } =
+    useHandleValue();
 
   React.useEffect(() => {
     console.log(todolist);
@@ -15,7 +16,14 @@ export function Todolist() {
     <TodolistContainer>
       {todolist &&
         todolist.map((todo) => {
-          return <Card todo={todo} />;
+          return (
+            <Card
+              todo={todo}
+              handleSaveTodo={handleSaveTodo}
+              handleDelete={handleDelete}
+              handleChecked={handleChecked}
+            />
+          );
         })}
     </TodolistContainer>
   );

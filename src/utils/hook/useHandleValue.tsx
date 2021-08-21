@@ -3,8 +3,8 @@ import { ITodoState } from "../../App";
 
 export function useHandleValue() {
   const [todolist, setTodolist] = useState<ITodoState[]>([
-    { id: 1, title: "TitleTest", content: "contentTest", checked: false },
-    { id: 2, title: "TitleTest", content: "contentTest", checked: false },
+    { id: 1, title: "TitleTest1", content: "contentTest", checked: false },
+    { id: 2, title: "TitleTest2", content: "contentTest", checked: false },
   ]);
 
   const handleChecked = (id: number) => {
@@ -34,8 +34,11 @@ export function useHandleValue() {
 
   const handleDelete = (id: number) => {
     const index = todolist.findIndex((todo) => todo.id === id);
-    let mapped = todolist.slice(index, 1);
-    return setTodolist(mapped);
+    let mapped = todolist.filter((todo, i) => {
+      return index !== i;
+    });
+
+    setTodolist(mapped);
   };
 
   return { todolist, handleChecked, handleSaveTodo, handleDelete };

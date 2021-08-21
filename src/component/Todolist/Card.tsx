@@ -4,14 +4,39 @@ import { ITodoState } from "../../App";
 import { Checkbox } from "../../utils/Checkbox";
 import { CloseBtn } from "../Modal";
 
-import { useHandleValue } from "../../utils/hook/useHandleValue";
-
-export function Card({ todo }: { todo: ITodoState }) {
-  const { handleSaveTodo, handleDelete, handleChecked } = useHandleValue();
-
+export function Card({
+  todo,
+  handleSaveTodo,
+  handleChecked,
+  handleDelete,
+}: {
+  todo: ITodoState;
+  handleSaveTodo: ({
+    id,
+    title,
+    content,
+  }: {
+    id: number;
+    title: string;
+    content: string;
+  }) => void;
+  handleChecked: (id: number) => void;
+  handleDelete: (id: number) => void;
+}) {
   return (
     <CardContainer key={todo.id}>
-      <CardDeletebtn onClick={() => {}}>&times;</CardDeletebtn>
+      <CardDeletebtn
+        onClick={() => {
+          if (window.confirm("please ensure and then confirm!")) {
+            handleDelete(todo.id);
+            alert("delete success");
+          } else {
+            alert("cancel delete");
+          }
+        }}
+      >
+        &times;
+      </CardDeletebtn>
       <CardTitle
         value={todo.title}
         onChange={(e) =>
