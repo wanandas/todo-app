@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+import { SCREEN } from "./utils/SCREEN";
+import { Todolist } from "./component/Todolist/TodoList";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <PageContainer>
+      <ContentContainer>
+        <div style={{ textAlign: "center" }}>
+          <h1>TODOLIST</h1>
+        </div>
+        <Todolist />
+      </ContentContainer>
+    </PageContainer>
   );
 }
 
 export default App;
+
+const PageContainer = styled.div`
+  min-height: 100vh;
+  @media (min-width: ${SCREEN.md}) {
+    border-radius: 0.25rem;
+    background-color: rgb(126, 126, 126);
+    padding: 10% 0;
+  }
+`;
+
+const ContentContainer = styled.div`
+  width: 90%;
+  background-color: #ffffff;
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 80vh;
+  @media (min-width: ${SCREEN.md}) {
+    width: 70%;
+  }
+`;
+
+export interface ITodoState {
+  id: number;
+  title: string;
+  content: string;
+  checked: boolean;
+}
