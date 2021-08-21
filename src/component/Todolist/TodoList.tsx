@@ -2,14 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import { useHandleValue } from "../../utils/hook/useHandleValue";
 import { SCREEN } from "../../utils/SCREEN";
+import { Modal } from "../Modal";
 import { Card } from "./Card";
 
 export function Todolist() {
-  const { todolist, handleSaveTodo, handleDelete, handleChecked } =
-    useHandleValue();
+  const {
+    todolist,
+    handleSaveTodo,
+    handleDelete,
+    handleChecked,
+    handleCreatetodo,
+  } = useHandleValue();
 
   React.useEffect(() => {
-    console.log(todolist);
+    localStorage.setItem("myTodo", JSON.stringify(todolist));
   }, [todolist]);
 
   return (
@@ -18,6 +24,7 @@ export function Todolist() {
         todolist.map((todo) => {
           return (
             <Card
+              key={todo.id}
               todo={todo}
               handleSaveTodo={handleSaveTodo}
               handleDelete={handleDelete}
@@ -25,6 +32,7 @@ export function Todolist() {
             />
           );
         })}
+      <Modal handleCreatetodo={handleCreatetodo} />
     </TodolistContainer>
   );
 }
@@ -32,6 +40,7 @@ export function Todolist() {
 const TodolistContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
   gap: 1rem;
   @media screen and (min-width: ${SCREEN.md}) {
     grid-template-columns: repeat(2, 1fr);

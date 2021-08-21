@@ -2,10 +2,25 @@ import { useState } from "react";
 import { ITodoState } from "../../App";
 
 export function useHandleValue() {
-  const [todolist, setTodolist] = useState<ITodoState[]>([
-    { id: 1, title: "TitleTest1", content: "contentTest", checked: false },
-    { id: 2, title: "TitleTest2", content: "contentTest", checked: false },
-  ]);
+  const localdata = localStorage.getItem("myTodo");
+
+  const [todolist, setTodolist] = useState<ITodoState[]>(
+    JSON.parse(localdata as string) || []
+  );
+
+  const handleCreatetodo = ({
+    title,
+    content,
+  }: {
+    title: string;
+    content: string;
+  }) => {
+    const id = todolist.length + 1;
+    const checked = false;
+    setTodolist([...todolist, { id, title, content, checked }]);
+    const stringData = JSON.stringify(todolist);
+    return localStorage.setItem("myTodo", stringData);
+  };
 
   const handleChecked = (id: number) => {
     let mapped = todolist.map((todo) => {
@@ -28,7 +43,6 @@ export function useHandleValue() {
         ? { ...todo, title: title, content: content }
         : { ...todo };
     });
-
     return setTodolist(mapped);
   };
 
@@ -41,5 +55,11 @@ export function useHandleValue() {
     setTodolist(mapped);
   };
 
-  return { todolist, handleChecked, handleSaveTodo, handleDelete };
+  return {
+    todolist,
+    handleChecked,
+    handleSaveTodo,
+    handleDelete,
+    handleCreatetodo,
+  };
 }

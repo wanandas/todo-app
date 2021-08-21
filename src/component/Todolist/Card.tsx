@@ -4,6 +4,10 @@ import { ITodoState } from "../../App";
 import { Checkbox } from "../../utils/Checkbox";
 import { CloseBtn } from "../Modal";
 
+interface Props {
+  finish: boolean;
+}
+
 export function Card({
   todo,
   handleSaveTodo,
@@ -24,7 +28,7 @@ export function Card({
   handleDelete: (id: number) => void;
 }) {
   return (
-    <CardContainer key={todo.id}>
+    <CardContainer finish={todo.checked}>
       <CardDeletebtn
         onClick={() => {
           if (window.confirm("please ensure and then confirm!")) {
@@ -39,6 +43,7 @@ export function Card({
       </CardDeletebtn>
       <CardTitle
         value={todo.title}
+        finish={todo.checked}
         onChange={(e) =>
           handleSaveTodo({
             id: todo.id,
@@ -56,6 +61,7 @@ export function Card({
           })
         }
         value={todo.content}
+        finish={todo.checked}
       />
       <Checkbox
         id={todo.id.toString()}
@@ -69,8 +75,8 @@ export function Card({
   );
 }
 
-const CardContainer = styled.div`
-  background-color: #dfdfdf;
+const CardContainer = styled.div<Props>`
+  background-color: ${(props) => (props.finish ? "#94d490" : "#dfdfdf")};
   position: relative;
   padding: 1.5rem 2rem;
   gap: 1rem;
@@ -83,20 +89,21 @@ const CardContainer = styled.div`
 
 const CardDeletebtn = styled(CloseBtn)`
   position: absolute;
+  color: #777777;
   top: 0;
   right: 0.5rem;
 `;
 
-const CardTitle = styled.input`
+const CardTitle = styled.input<Props>`
   text-transform: uppercase;
   border: none;
   font-size: 1.5rem;
   font-weight: bold;
-  background-color: #dfdfdf;
+  background-color: ${(props) => (props.finish ? "#94d490" : "#dfdfdf")};
 `;
-const CardContent = styled.textarea`
+const CardContent = styled.textarea<Props>`
   border: none;
-  background-color: #dfdfdf;
+  background-color: ${(props) => (props.finish ? "#94d490" : "#dfdfdf")};
   resize: vertical;
   height: 10rem;
   width: 100%;
